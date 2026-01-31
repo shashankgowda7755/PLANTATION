@@ -311,7 +311,7 @@
 
                         <!-- Last Name Container -->
                         <div class="absolute z-10 flex flex-col items-start justify-center text-left" 
-                             style="left: 73.0%; top: 26.5%; width: 12.6%; height: auto;">
+                             style="left: 60.2%; top: 25.0%; width: 12.6%; height: auto;">
                              <div id="poster-lastname-container" class="text-white"></div>
                         </div>
                     </div>
@@ -334,8 +334,8 @@
             <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mb-6">
                 <span class="material-symbols-outlined text-4xl text-green-600">volunteer_activism</span>
             </div>
-            <h1 class="text-3xl font-bold text-[#111812] mb-2">Pledge Taken! 🌳</h1>
-            <p class="text-stone-500 mb-8">You have successfully pledged to increase our green cover.</p>
+            <h1 class="text-3xl font-bold text-[#111812] mb-2">Thanks for planting! 🌳</h1>
+
             
             <div class="relative mb-8 w-full max-w-[350px] shadow-xl rounded-lg overflow-hidden" id="final-poster-container">
                 <!-- Clone of poster will act here or just show image -->
@@ -674,7 +674,7 @@
             if (!blob) { alert('Failed to generate poster.'); return; }
             
             const link = document.createElement('a');
-            link.download = `Communitree_Pledge_${state.name.replace(/\s+/g, '_')}.png`;
+            link.download = `Communitree_Plantation_${state.name.replace(/\s+/g, '_')}.png`;
             link.href = URL.createObjectURL(blob);
             link.click();
             URL.revokeObjectURL(link.href);
@@ -688,9 +688,7 @@
                     
             if (navigator.canShare && navigator.canShare({ files: [file] })) {
                 navigator.share({
-                    files: [file],
-                    title: 'My Green Pledge', 
-                    text: `I have taken a pledge to restore our green cover. Join me at https://communitree.co.in/`,
+                    files: [file]
                 }).catch(err => console.error('Share failed:', err));
             } else {
                 alert('Sharing is not supported on this browser/device.');
