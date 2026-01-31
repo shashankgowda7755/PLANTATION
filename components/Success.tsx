@@ -31,7 +31,7 @@ export const Success: React.FC<SuccessProps> = ({ userData, onReset }) => {
         section: userData.section,
         phone: `${userData.countryCode} ${userData.phone}`,
         email: userData.email,
-        message: 'I Pledge to protect marine life',
+        message: 'I Pledge to restore green cover',
         photoUrl: userData.photo,
         optIn: userData.optInSimilarEvents
       };
@@ -157,7 +157,7 @@ export const Success: React.FC<SuccessProps> = ({ userData, onReset }) => {
       const url = URL.createObjectURL(blob);
       const link = document.createElement('a');
       link.href = url;
-      link.download = `Turtle_Pledge_${userData.fullName.replace(/\s+/g, '_')}.png`; // Updated filename
+      link.download = `Communitree_Pledge_${userData.fullName.replace(/\s+/g, '_')}.png`; // Updated filename
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
@@ -181,13 +181,13 @@ export const Success: React.FC<SuccessProps> = ({ userData, onReset }) => {
       const blob = await generateImageBlob(); // Renamed from generateImage() to match existing
       if (!blob) throw new Error('Failed to capture image');
 
-      const file = new File([blob], `turtle_pledge.png`, { type: 'image/png' });
+      const file = new File([blob], `communitree_pledge.png`, { type: 'image/png' });
 
       if (navigator.canShare && navigator.canShare({ files: [file] })) {
         await navigator.share({
           files: [file],
-          title: 'My Turtle Pledge', 
-          text: `I have taken turtle walk to join and be part of it https://saveaturtle.vercel.app/`,
+          title: 'My Green Pledge', 
+          text: `I have taken a pledge to restore our green cover. Join me at https://communitree.co.in/`,
         });
       } else {
         // Fallback
@@ -210,9 +210,9 @@ export const Success: React.FC<SuccessProps> = ({ userData, onReset }) => {
           <span className="material-icons-round text-4xl text-green-600">volunteer_activism</span>
         </div>
 
-        <h1 className="text-3xl font-display font-bold text-indiaNavy mb-2">Pledge Taken! 🐢</h1> {/* Updated emoji */}
+        <h1 className="text-3xl font-display font-bold text-indiaNavy mb-2">Pledge Taken! 🌳</h1> {/* Updated emoji */}
         <p className="text-stone-500 mb-8">
-          You have successfully pledged to protect our marine life. {/* Updated text */}
+          You have successfully pledged to increase our green cover. {/* Updated text */}
         </p>
 
         {/* Visible Preview Area */}

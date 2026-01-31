@@ -142,7 +142,7 @@ const App: React.FC = () => {
                       </div>
                       <div className="flex flex-col gap-2">
                         <h3 className="text-[#111812] text-lg font-bold">Registered Trust</h3>
-                        <p className="text-gray-600 text-sm leading-relaxed">Officially recognized entity dedicated to environmental preservation. (No. 113 of 2018, Adyar)</p>
+                        <p className="text-gray-600 text-sm leading-relaxed">Officially recognized entity dedicated to environmental preservation and community welfare.</p>
                       </div>
                     </div>
                     
