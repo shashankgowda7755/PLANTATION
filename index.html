@@ -1,184 +1,71 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0, viewport-fit=cover"
+    />
 
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0, viewport-fit=cover" />
+    <!-- Page Title -->
+    <title>Communitree Impact Landing Page</title>
 
-  <!-- Page Title -->
-  <title>Save a Turtle</title>
+    <!-- Google Fonts: Public Sans & Material Symbols -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400;500;700;900&amp;display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+      rel="stylesheet"
+    />
 
-  <!-- SEO Meta Tags -->
-  <!-- SEO Meta Tags -->
-  <meta name="description"
-    content="Join the effort to protect Olive Ridley Turtles. A community initiative to promote conservation and awareness. Generate your personalized pledge certificate." />
-  <meta name="keywords"
-    content="turtle conservation, save a turtle, olive ridley, sea turtle, chennai, marina beach, environment, conservation pledge" />
-  <meta name="author" content="Save a Turtle" />
-  <meta name="robots" content="index, follow" />
-
-  <!-- Open Graph / Social Media -->
-  <meta property="og:type" content="website" />
-  <meta property="og:title" content="My Turtle Pledge 🐢" />
-  <meta property="og:description"
-    content="I've taken the pledge to protect and conserve our sea turtles. Join me in saving our marine life!" />
-  <meta property="og:site_name" content="Save a Turtle" />
-  <meta property="og:locale" content="en_IN" />
-
-  <!-- Twitter Card -->
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="My Turtle Pledge 🐢" />
-  <meta name="twitter:description" content="I've taken the pledge to protect and conserve our sea turtles. Join me!" />
-
-  <!-- Theme Color -->
-  <meta name="theme-color" content="#FF9933" />
-  <meta name="msapplication-TileColor" content="#138808" />
-
-  <link href="https://fonts.googleapis.com" rel="preconnect"/>
-  <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&amp;family=Inter:wght@300;400;500;600&amp;display=swap" rel="stylesheet"/>
-  <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet"/>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
-  <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet" />
-
-  <!-- Tailwind CSS -->
-  <script src="https://cdn.tailwindcss.com?plugins=forms,typography"></script>
-  <script>
-    tailwind.config = {
-      darkMode: "class",
-      theme: {
-        extend: {
-          colors: {
-            primary: "#FF7F50", // Coral
-            "primary-hover": "#E56A3F",
-            secondary: "#95D5B2", // Seafoam Green
-            midnight: "#001B48", // Midnight Blue
-            "midnight-light": "#002865",
-            "background-light": "#F8FAFC", // Slate 50
-            "background-dark": "#001B48", // Midnight Blue
-            surface: "#FFFFFF",
-            "surface-dark": "#0B2553",
-            // Keep existing colors for backward compatibility if needed
-            saffron: '#FF671F',
-            indiaGreen: '#046A38',
-            indiaNavy: '#06038D',
-            body: '#333333',
-            subText: '#5F6368',
-            canvas: '#FAFAFA',
-            danger: '#D32F2F',
-          },
-          fontFamily: {
-             display: ["Montserrat", "sans-serif"],
-             body: ["Inter", "sans-serif"],
-             poster: ['Big Shoulders Display', 'sans-serif'], // Keeping for existing components if any
-          },
-          borderRadius: {
-              DEFAULT: "0.5rem",
-          },
-          backgroundImage: {
-              'ocean-gradient': 'linear-gradient(to bottom, rgba(0, 27, 72, 0.6), rgba(0, 27, 72, 0.9))',
-          },
-          animation: {
-            blob: "blob 7s infinite",
-            'fade-in': 'fadeIn 0.5s ease-out',
-            'slide-up': 'slideUp 0.5s ease-out',
-          },
-          keyframes: {
-            blob: {
-              "0%": { transform: "translate(0px, 0px) scale(1)" },
-              "33%": { transform: "translate(30px, -50px) scale(1.1)" },
-              "66%": { transform: "translate(-20px, 20px) scale(0.9)" },
-              "100%": { transform: "translate(0px, 0px) scale(1)" },
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script>
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              primary: "#11d432",
+              "earthy-brown": "#8B5E3C",
+              "forest-green": "#102213",
+              "background-light": "#f6f8f6",
+              "background-dark": "#102213",
             },
-            fadeIn: {
-              '0%': { opacity: '0' },
-              '100%': { opacity: '1' },
+            fontFamily: {
+              display: ["Public Sans", "sans-serif"],
+              sans: ["Public Sans", "sans-serif"],
             },
-            slideUp: {
-              '0%': { transform: 'translateY(20px)', opacity: '0' },
-              '100%': { transform: 'translateY(0)', opacity: '1' },
-            }
+            borderRadius: {
+              DEFAULT: "0.375rem",
+              lg: "0.5rem",
+              xl: "0.75rem",
+              full: "9999px",
+            },
           },
         },
-      },
-    };
-  </script>
+      };
+    </script>
 
+    <style>
+      .material-symbols-outlined {
+        font-variation-settings:
+          "FILL" 0,
+          "wght" 400,
+          "GRAD" 0,
+          "opsz" 24;
+      }
 
+      html {
+        scroll-behavior: smooth;
+      }
+    </style>
+  </head>
 
-  <!-- html2canvas -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js" integrity="sha384-ZZ1pncU3bQe8y31yfZdMFdSpttDoPmOZg2wguVK9almUodir1PghgT0eY7Mrty8H" crossorigin="anonymous"></script>
-
-  <!-- Cropper.js -->
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.css" rel="stylesheet" integrity="sha384-oMy41mb/qJnpJlpXOF57hSu2KGi47l/UV9+tPNrBOs7/ap5Vubj/3phrCtjutHMQ" crossorigin="anonymous">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.js" integrity="sha384-r+ljwOAhwY4/kdyzMnuBg7MEVoWpTMp5EYUDntB/E9qzNwL9dAEcNrb2XaV+mJc2" crossorigin="anonymous"></script>
-
-  <style>
-    /* Hide scrollbar for cleaner UI in modals */
-    .no-scrollbar::-webkit-scrollbar {
-      display: none;
-    }
-
-    .no-scrollbar {
-      -ms-overflow-style: none;
-      scrollbar-width: none;
-    }
-
-    /* Cropper Customization for Round Preview (Visual only) */
-    .cropper-view-box,
-    .cropper-face {
-      border-radius: 50%;
-    }
-
-    /* Ensure the image fills the crop box nicely */
-    .cropper-view-box {
-      outline: 0;
-      box-shadow: 0 0 0 1px #39f;
-    }
-
-    html {
-      scroll-behavior: smooth;
-    }
-
-    :root {
-      /* --- Brand Identity (Turtle) --- */
-      --color-turtle-green: #2E8B57; /* Sea Green */
-      --color-turtle-teal: #20B2AA;  /* Light Sea Green */
-      --color-ocean-blue: #006994;   /* Ocean Blue */
-      --color-sand: #F4A460;         /* Sandy Brown */
-
-      /* --- Semantic UI Colors --- */
-      --color-primary: var(--color-ocean-blue);
-      --color-accent: var(--color-sand);
-      --color-success: var(--color-turtle-green);
-      --color-danger: #D32F2F;
-
-      /* --- Typography --- */
-      --text-primary: #333333;
-      --text-secondary: #5F6368;
-      --text-on-primary: #FFFFFF;
-
-      /* --- Surfaces --- */
-      --bg-body: #FAFAFA;
-      --bg-surface: #FFFFFF;
-
-      /* --- Special Gradients --- */
-      --gradient-tricolor: linear-gradient(180deg,
-          rgba(32, 178, 170, 0.1) 0%,
-          rgba(255, 255, 255, 1) 50%,
-          rgba(0, 105, 148, 0.1) 100%);
-    }
-
-    .bg-tricolor-gradient {
-      background: var(--gradient-tricolor);
-    }
-  </style>
-
-</head>
-
-<body class="bg-stone-50 text-stone-900 antialiased">
-  <div id="root"></div>
-  <script type="module" src="/index.tsx"></script>
-</body>
-
+  <body class="bg-stone-50 text-stone-900 antialiased">
+    <div id="root"></div>
+    <script type="module" src="/index.tsx"></script>
+  </body>
 </html>
