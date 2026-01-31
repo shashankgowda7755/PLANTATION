@@ -88,10 +88,6 @@ const App: React.FC = () => {
                 <span className="material-symbols-outlined">workspace_premium</span>
                 Download Your Certificate of Impact
               </button>
-              
-              <button className="flex items-center justify-center gap-2 bg-white/10 text-white border border-white/30 h-14 px-8 rounded-lg text-base font-bold hover:bg-white/20 transition-all backdrop-blur-sm">
-                View Impact Report
-              </button>
             </div>
           </div>
         </div>
