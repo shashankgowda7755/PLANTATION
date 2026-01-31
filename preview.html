@@ -207,22 +207,12 @@
 
                     <div class="space-y-6">
                         <!-- Name Split: First Name & Last Name -->
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                            <!-- First Name -->
-                            <div>
-                                <label class="block text-xs font-bold text-slate-500 uppercase tracking-wide mb-3 ml-1">
-                                    First Name <span class="text-red-500">*</span>
-                                </label>
-                                <input type="text" id="first-name" placeholder="Ram" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-5 py-4 focus:ring-2 focus:ring-primary/20 outline-none transition-all" oninput="validateForm()">
-                            </div>
-
-                            <!-- Last Name -->
-                            <div>
-                                <label class="block text-xs font-bold text-slate-500 uppercase tracking-wide mb-3 ml-1">
-                                    Last Name <span class="text-slate-400 font-normal normal-case">(Optional)</span>
-                                </label>
-                                <input type="text" id="last-name" placeholder="Kumar" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-5 py-4 focus:ring-2 focus:ring-primary/20 outline-none transition-all">
-                            </div>
+                        <!-- Full Name -->
+                        <div>
+                            <label class="block text-xs font-bold text-slate-500 uppercase tracking-wide mb-3 ml-1">
+                                Name <span class="text-red-500">*</span>
+                            </label>
+                            <input type="text" id="full-name" placeholder="Ram Kumar" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-5 py-4 focus:ring-2 focus:ring-primary/20 outline-none transition-all" oninput="validateForm()">
                         </div>
 
                         <!-- Grid for Contact Info -->
@@ -303,16 +293,10 @@
                             <img id="poster-user-photo" src="" class="w-full h-full object-cover">
                         </div>
                         
-                        <!-- First Name Container -->
+                        <!-- Name Container -->
                         <div class="absolute z-10 flex flex-col items-start justify-center text-left" 
                              style="left: 60.2%; top: 19.2%; width: 32%; height: auto;">
-                             <div id="poster-firstname-container" class="text-white"></div>
-                        </div>
-
-                        <!-- Last Name Container -->
-                        <div class="absolute z-10 flex flex-col items-start justify-center text-left" 
-                             style="left: 60.2%; top: 25.0%; width: 12.6%; height: auto;">
-                             <div id="poster-lastname-container" class="text-white"></div>
+                             <div id="poster-name-container" class="text-white"></div>
                         </div>
                     </div>
                 </div>
@@ -503,17 +487,16 @@
         }
 
         function submitForm() {
-            const firstName = document.getElementById('first-name').value.trim();
-            const lastName = document.getElementById('last-name').value.trim();
+            const fullNameInput = document.getElementById('full-name').value.trim();
             
-            if (!firstName) { alert('Please enter your First Name'); return; }
+            if (!fullNameInput) { alert('Please enter your Name'); return; }
             if (!state.photo) { alert('Please upload a photo'); return; }
             
             // Auto capitalize
             const formatName = (str) => str.charAt(0).toUpperCase() + str.slice(1);
-            state.firstName = formatName(firstName);
-            state.lastName = lastName ? formatName(lastName) : '';
-            state.name = `${state.firstName} ${state.lastName}`.trim();
+            
+            // Full Name Logic (No Split)
+            state.name = fullNameInput.split(' ').map(formatName).join(' '); // Capitalize each word
             
             state.email = document.getElementById('email').value;
             state.phone = document.getElementById('phone').value;
@@ -522,20 +505,12 @@
             // --- Update Preview Logic (MATCHING Poster.tsx) ---
             document.getElementById('poster-user-photo').src = state.photo;
             
-            const needsReduction = state.firstName.length > 7 || (state.lastName && state.lastName.length > 7);
+            const needsReduction = state.name.length > 15;
             const uniformSize = needsReduction ? '18px' : '22px';
             
-            // Inject First Name
-            const firstHtml = `<h2 style="font-family: 'Big Shoulders Display', sans-serif; font-weight: 800; font-size: ${uniformSize}; text-shadow: 0px 2px 4px rgba(0,0,0,0.5); line-height: 1; margin: 0; text-transform: uppercase; color: white;">${state.firstName}</h2>`;
-            document.getElementById('poster-firstname-container').innerHTML = firstHtml;
-
-            // Inject Last Name
-            if (state.lastName) {
-                const lastHtml = `<h2 style="font-family: 'Big Shoulders Display', sans-serif; font-weight: 800; font-size: ${uniformSize}; text-shadow: 0px 2px 4px rgba(0,0,0,0.5); line-height: 1; margin: 0; text-transform: uppercase; color: #f3d7a3;">${state.lastName}</h2>`;
-                document.getElementById('poster-lastname-container').innerHTML = lastHtml;
-            } else {
-                document.getElementById('poster-lastname-container').innerHTML = '';
-            }
+            // Inject Full Name
+            const html = `<h2 style="font-family: 'Big Shoulders Display', sans-serif; font-weight: 800; font-size: ${uniformSize}; text-shadow: 0px 2px 4px rgba(0,0,0,0.5); line-height: 1.1; margin: 0; text-transform: uppercase; color: white;">${state.name}</h2>`;
+            document.getElementById('poster-name-container').innerHTML = html;
             
             showStep('step-preview');
         }
@@ -596,88 +571,83 @@
 
         // --- High-Res Image Generation (Matching Success.tsx) ---
         async function generateImageBlob() {
-            const elementToCapture = document.getElementById('poster-element');
-            if (!elementToCapture) return null;
-
-            // 1. Clone the element (Invisible Clone Strategy)
-            const clone = elementToCapture.cloneNode(true);
-            
-            // 2. Force High-Res Dimensions (poster.png native size)
-            clone.style.position = 'fixed';
-            clone.style.top = '-10000px';
-            clone.style.left = '-10000px';
-            clone.style.width = '1455px';
-            clone.style.height = '2000px';
-            clone.style.transform = 'none';
-            clone.style.margin = '0';
-            clone.style.borderRadius = '0';
-            
-            // 3. Update Font Sizes for HD (Scaling from ~350px preview to 1455px)
-            // Scale factor roughly 4x. 
-            // Original React Logic: 85px (Base) or 68px (Reduced)
-            const firstNameContainer = clone.querySelector('#poster-firstname-container');
-            const lastNameContainer = clone.querySelector('#poster-lastname-container');
-            
-            if (firstNameContainer) {
-                const firstName = state.firstName;
-                const lastName = state.lastName;
-                const needsReduction = firstName.length > 7 || (lastName && lastName.length > 7);
-                const uniformSize = needsReduction ? '68px' : '85px';
-
-                 firstNameContainer.innerHTML = `
-                <h2 style="font-family: 'Big Shoulders Display', sans-serif; font-weight: 800; font-size: ${uniformSize}; text-shadow: 0px 4px 8px rgba(0,0,0,0.5); line-height: 1; margin: 0; text-transform: uppercase; color: white;">
-                    ${firstName}
-                </h2>`;
-                
-                if (lastNameContainer) {
-                    if (lastName) {
-                        lastNameContainer.innerHTML = `
-                        <h2 style="font-family: 'Big Shoulders Display', sans-serif; font-weight: 800; font-size: ${uniformSize}; text-shadow: 0px 4px 8px rgba(0,0,0,0.5); line-height: 1; margin: 0; text-transform: uppercase; color: #f3d7a3;">
-                            ${lastName}
-                        </h2>`;
-                    } else {
-                        lastNameContainer.innerHTML = '';
-                    }
-                }
-            }
-
-            document.body.appendChild(clone);
-
-            // 4. Force Background Refresh (Cache Busting) & Wait
-            const bgImg = clone.querySelector('img');
-            if (bgImg) {
-                const src = bgImg.src.split('?')[0];
-                bgImg.src = src + '?v=' + new Date().getTime();
-                await new Promise(r => { bgImg.onload = r; setTimeout(r, 500); });
-            }
-
             try {
-                // 5. Capture with html2canvas
+                const elementToCapture = document.getElementById('poster-element');
+                if (!elementToCapture) throw new Error("Poster element not found");
+
+                // 1. Clone the element
+                const clone = elementToCapture.cloneNode(true);
+                
+                // 2. Force High-Res Dimensions
+                Object.assign(clone.style, {
+                    position: 'fixed',
+                    top: '-10000px',
+                    left: '-10000px',
+                    width: '1455px',
+                    height: '2000px',
+                    transform: 'none',
+                    margin: '0',
+                    borderRadius: '0',
+                    zIndex: '9999',
+                    display: 'block' // Ensure visibility
+                });
+                
+                // 3. Update Font Sizes
+                const nameContainer = clone.querySelector('#poster-name-container');
+                if (nameContainer) {
+                    const fullName = state.name;
+                    const needsReduction = fullName.length > 15;
+                    const uniformSize = needsReduction ? '68px' : '85px';
+
+                     nameContainer.innerHTML = `
+                    <h2 style="font-family: 'Big Shoulders Display', sans-serif; font-weight: 800; font-size: ${uniformSize}; text-shadow: 0px 4px 8px rgba(0,0,0,0.5); line-height: 1.1; margin: 0; text-transform: uppercase; color: white;">
+                        ${fullName}
+                    </h2>`;
+                }
+
+                document.body.appendChild(clone);
+
+                // Wait for images in clone to load
+                const images = Array.from(clone.querySelectorAll('img'));
+                await Promise.all(images.map(img => {
+                    if (img.complete) return Promise.resolve();
+                    return new Promise(resolve => {
+                        img.onload = resolve;
+                        img.onerror = resolve; // Proceed even if error
+                    });
+                }));
+
+                // 4. Capture
                 const canvas = await html2canvas(clone, {
-                    scale: 2, // Results in ~2910px width (High Quality)
+                    scale: 2,
                     useCORS: true,
                     allowTaint: true,
-                    backgroundColor: null
+                    backgroundColor: null,
+                    logging: true // Enable logging for debug
                 });
                 
                 document.body.removeChild(clone);
                 return new Promise(resolve => canvas.toBlob(resolve, 'image/png'));
             } catch (err) {
-                console.error(err);
-                if (document.body.contains(clone)) document.body.removeChild(clone);
+                console.error("Generate Blob Error:", err);
                 return null;
             }
         }
 
         async function downloadPoster() {
-            const blob = await generateImageBlob();
-            if (!blob) { alert('Failed to generate poster.'); return; }
-            
-            const link = document.createElement('a');
-            link.download = `Communitree_Plantation_${state.name.replace(/\s+/g, '_')}.png`;
-            link.href = URL.createObjectURL(blob);
-            link.click();
-            URL.revokeObjectURL(link.href);
+            try {
+                const blob = await generateImageBlob();
+                if (!blob) { throw new Error('Blob generation failed'); }
+                
+                const link = document.createElement('a');
+                link.download = `Communitree_Plantation_${state.name.replace(/\s+/g, '_')}.png`;
+                link.href = URL.createObjectURL(blob);
+                link.click();
+                URL.revokeObjectURL(link.href);
+            } catch (err) {
+                console.error("Download Error:", err);
+                alert('Download failed. Please try again. Error: ' + err.message);
+            }
         }
 
         async function sharePoster() {
@@ -695,11 +665,11 @@
             }
         }
         function validateForm() {
-            const firstName = document.getElementById('first-name').value.trim();
+            const fullName = document.getElementById('full-name').value.trim();
             const photoInput = state.photo; // Check state.photo directly
             const btn = document.getElementById('submit-btn');
             
-            if (firstName && photoInput) {
+            if (fullName && photoInput) {
                 btn.removeAttribute('disabled');
                 btn.classList.remove('opacity-50', 'cursor-not-allowed');
             } else {
@@ -709,42 +679,7 @@
         }
 
         // Attach listeners for validation
-        document.getElementById('first-name').addEventListener('input', validateForm);
-        // Note: Photo validation is handled in saveCrop/handlePhoto by updating state and calling validateForm if needed, 
-        // but since we check state.photo, we just need to make sure we call validateForm after photo is set.
 
-        function saveCrop() {
-            if (state.cropper) {
-                const canvas = state.cropper.getCroppedCanvas({
-                    width: 1080,
-                    height: 1080,
-                    fillColor: '#fff',
-                    imageSmoothingQuality: 'high',
-                });
-                
-                state.photo = canvas.toDataURL('image/jpeg', 0.95);
-                
-                // Update Preview UI
-                document.getElementById('photo-preview').innerHTML = `<img src="${state.photo}" class="w-full h-full object-cover">`;
-                
-                cancelCrop(); 
-                validateForm(); // Re-validate to enable button
-            }
-        }
-        
-        // Also add to handlePhoto for file uploads
-        function handlePhoto(input) {
-            if (input.files && input.files[0]) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    state.tempImage = e.target.result;
-                    startCropper(state.tempImage);
-                    // Clear input so same file can be selected again
-                    input.value = '';
-                };
-                reader.readAsDataURL(input.files[0]);
-            }
-        }
     </script>
 </body>
 </html>
